@@ -1,4 +1,4 @@
 
-export DEBUG=app1:* 
+export DEBUG=app2:* 
 npm start
 
