@@ -15,7 +15,7 @@ console.log('Load user API ...');
 
 var api = {};
 
-var userFieldList = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'created_on', 'updated_on' ];
+var userFieldList = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'status', 'created_on', 'updated_on' ];
 
 var groupTableName = "karely_user_group";
 var userGroupLinkTableName = "karely_user_group_link";
@@ -144,7 +144,7 @@ api.addNormalUserSession = async function(id)
 
 api.addAuthorizationCodeSession = async function(id)
 {
-	var expired = moment().add(config.sessionDuration.value, config.sessionDuration.type).toDate();
+	var expired = moment().add(config.shortSessionDuration.value, config.shortSessionDuration.type).toDate();
 	var data = {
 		token: uuidv4(),
 		user_id: id,
@@ -162,7 +162,7 @@ api.addAuthorizationCodeSession = async function(id)
 
 api.addResetPasswordSession = async function(id)
 {
-	var expired = moment().add(config.sessionDuration.value, config.sessionDuration.type).toDate();
+	var expired = moment().add(config.shortSessionDuration.value, config.shortSessionDuration.type).toDate();
 	var data = {
 		token: uuidv4(),
 		user_id: id,
@@ -198,17 +198,17 @@ api.login = async function(email, password) {
 	return user;
 };
 
-// verify access token
+// Verify access token
+// 	the web API verison only return user id
 api.verifyAccessToken = async function(token) {
 	
 	var session = await api.getSession(token);
-
 	var user = await api.getUser(session.user_id);
+
 	user.session = session;
 	return user;
 };
 
-// api.randomNumber(1000, 9999); 
 api.randomNumber = function(min, max)
 {
 	// include min value but not include max value
@@ -260,7 +260,8 @@ api.resetPassword = async function(email) {
 	var user = await api.getUserWithEmail(email);
 	var session = await api.addResetPasswordSession(user.id);
 
-	var url = "http://localhost:8000/app2/resetPasswordView.html?token=" + session.token;
+	// var url = "http://localhost:8000/app2/resetPasswordView.html?token=" + session.token;
+	var url = config.resetPasswordURL + "?token=" + session.token;
 	var result = await mailer.sendMail({
 		from: 'Karely <noreply@karely.com>',
 		to: user.email,
@@ -292,7 +293,7 @@ api.logout = async function(token) {
 	var session = await api.getSession(token);
 	var result = await api.deleteSession(token);
 	delete session.authorization_code;
-	return session;
+	return session.user_id;
 };
 
 // CRUD for group

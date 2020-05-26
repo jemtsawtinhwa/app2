@@ -60,7 +60,7 @@ router.post('/add', async function(req, res, next) {
 			password: password,	
 		});
 
-		res.json({ id: result });
+		res.json(result);
 
 	} catch (err) {
 		console.log("Exception", err);
@@ -91,7 +91,7 @@ router.post('/update', async function(req, res, next) {
 		}
 
 		var result = await api.updateUserWithID(data, req.body.id);
-		res.json({ id: result });
+		res.json(result);
 	} catch (err) {
 		console.log("Exception", err);
 		if (err.detail != undefined)
@@ -110,7 +110,48 @@ router.post('/update', async function(req, res, next) {
 router.post('/delete', async function(req, res, next) {
 	try {
 		var result = await api.deleteUserWithID(req.body.id);
-		res.json({ id: result });
+		res.json(result);
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+router.post('/signUp', async function(req, res, next) {
+	try {
+		var result = await api.signUpUser(req.body);
+		res.json(result);
+			
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+router.post('/verifyAuthorizationCode', async function(req, res, next) {
+	try {
+		var token = req.get("token");
+		var result = await api.verifyAuthorizationCode(token, req.body.code);
+		res.json(result);
+			
 	} catch (err) {
 		console.log("Exception", err);
 		if (err.detail != undefined)
@@ -128,6 +169,8 @@ router.post('/delete', async function(req, res, next) {
 
 router.post('/login', async function(req, res, next) {
 	try {
+		var result = await api.login(req.body.email, req.body.password);
+		res.json(result);
 			
 	} catch (err) {
 		console.log("Exception", err);
@@ -144,4 +187,89 @@ router.post('/login', async function(req, res, next) {
 	}
 });
 
+router.post('/logout', async function(req, res, next) {
+	try {
+		var result = await api.logout(req.body.token);
+		res.json(result);
+			
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+router.post('/verifyAccessToken', async function(req, res, next) {
+	try {
+		var result = await api.verifyAccessToken(req.body.token);
+		res.json(result.id);
+			
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+router.post('/resetPassword', async function(req, res, next) {
+	try {
+		var result = await api.resetPassword(req.body.email);
+		res.json(result);
+			
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+router.post('/updatePassword', async function(req, res, next) {
+	try {
+		var token = req.get("token");
+		var result = await api.updateUserPassword(token, req.body.password);
+		res.json(result);
+			
+	} catch (err) {
+		console.log("Exception", err);
+		if (err.detail != undefined)
+		{
+			res.status(400);
+  			res.json({message: err.detail, code: err.code});
+		}
+		else
+		{
+			res.status(400);
+  			res.json({message: err.message });
+		}
+	}
+});
+
+
+// export the router here
 module.exports = router;
+
+

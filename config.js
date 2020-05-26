@@ -9,6 +9,7 @@ module.exports = {
 	application: {
 		passwordKey: 'super@123',
 		cors: true,
+		resetPasswordURL: 'http://localhost:8000/app2/testResetPasswordView.html',
 		sessionDuration: {
 			value: 1,
 			type: "months",
