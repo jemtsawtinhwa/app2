@@ -1,7 +1,16 @@
+<<<<<<< HEAD
+=======
+--DELETE FROM karely_cause;
+--DELETE FROM karely_user;
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 
 DROP TABLE IF EXISTS karely_cause_action_fundraising;
 DROP TABLE IF EXISTS karely_cause_action_product;
 DROP TABLE IF EXISTS karely_cause_action_todo;
+<<<<<<< HEAD
+=======
+DROP TABLE IF EXISTS karely_cause_action;
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 DROP TABLE IF EXISTS karely_cause_member;
 DROP TABLE IF EXISTS karely_cause_comment;
 DROP TABLE IF EXISTS karely_cause_update;
@@ -23,6 +32,7 @@ CREATE TABLE karely_user_group(
 
 CREATE TABLE karely_user(
 	id SERIAL PRIMARY KEY,
+<<<<<<< HEAD
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(255) UNIQUE,
@@ -31,10 +41,31 @@ CREATE TABLE karely_user(
 	avatar TEXT,
 	biography TEXT,
 	account_type INT NOT NULL DEFAULT 0,
+=======
+	first_name VARCHAR(255),
+	last_name VARCHAR(255),
+	email VARCHAR(255) UNIQUE,
+	phone_number VARCHAR(255) UNIQUE,
+	password VARCHAR(255),
+	avatar TEXT,
+	biography TEXT,
+	account_type INT NOT NULL DEFAULT 0,
+	status INT NOT NULL DEFAULT 0,		
+	login_failed_count INT NOT NULL DEFAULT 0,		
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 	created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+<<<<<<< HEAD
+=======
+/*
+	Account type 0 for local account, 1 for Google, 2 for Facebook and 3 for Twitter
+	status 0 for inactive, 1 for active (verify email) 
+	
+*/
+
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 CREATE TABLE karely_user_group_link(
 	id SERIAL PRIMARY KEY,
 	group_id INT4 REFERENCES karely_user_group(id) ON DELETE CASCADE,
@@ -43,15 +74,22 @@ CREATE TABLE karely_user_group_link(
 	updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+<<<<<<< HEAD
 /*
 	Account type 0 for local account, 1 for Google, 2 for Facebook and 3 for Twitter
 */
+=======
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 
 CREATE TABLE karely_user_session(
 	token VARCHAR(255) PRIMARY KEY,
 	user_id INT4 REFERENCES karely_user(id) ON DELETE CASCADE,
 	remark VARCHAR(255),
+<<<<<<< HEAD
 	metadata TEXT,
+=======
+	authorization_code VARCHAR(50),
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 	session_type INT NOT NULL DEFAULT 0,
 	expired_on TIMESTAMP, 
 	created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -78,12 +116,20 @@ CREATE TABLE karely_user_stat (
 );
 
 
+<<<<<<< HEAD
 
 INSERT INTO karely_user_group (group_name) VALUES ('KARELY');
 INSERT INTO karely_user_group (group_name) VALUES ('ADMIN');
 
 INSERT INTO karely_user (first_name, last_name, email) VALUES ('CheowKwee', 'Goh', 'cheowkwee@hotmail.com');
 INSERT INTO karely_user (first_name, last_name, email) VALUES ('CK', 'Goh', 'cheowkwee@gmail.com');
+=======
+INSERT INTO karely_user_group (group_name) VALUES ('KARELY');
+INSERT INTO karely_user_group (group_name) VALUES ('ADMIN');
+
+INSERT INTO karely_user (first_name, last_name, email) VALUES ('Calvin', 'Goh', 'calvin.goh@tortugamobile.com');
+INSERT INTO karely_user (first_name, last_name, email) VALUES ('KK', 'Goh', 'kkgoh@gmail.com');
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 
 SELECT * from karely_user_group;
 
@@ -179,7 +225,11 @@ CREATE TABLE karely_cause_action_todo (
 	volunteers INT,
 	recurrence INT,		-- 0 - daily, 1 - weekly, 2 - monthly and 3 - ??? 	
 	start_location TEXT,	-- need to be confirm
+<<<<<<< HEAD
 	end_location TEXT,
+=======
+	end_location TEXT
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 );
 
 CREATE TABLE karely_cause_action_todo_volunteer (
@@ -194,13 +244,21 @@ CREATE TABLE karely_cause_action_todo_volunteer (
 CREATE TABLE karely_cause_action_fundraising (
 	action_id int,
 	cause_id INT REFERENCES karely_cause(id) ON DELETE CASCADE,
+<<<<<<< HEAD
 	user_id INT REFERENCES karely_user(id) ON DELETE CASCADE,
+=======
+	user_id INT REFERENCES karely_user(id) ON DELETE CASCADE
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 );
 
 
 CREATE TABLE karely_cause_action_product (
 	action_id int,
+<<<<<<< HEAD
 	cause_id INT REFERENCES karely_cause(id) ON DELETE CASCADE,
+=======
+	cause_id INT REFERENCES karely_cause(id) ON DELETE CASCADE
+>>>>>>> 491d6884a77d79f4cccc0ec75cb8002b4f700929
 );
 
 \d+ karely_user_group;
