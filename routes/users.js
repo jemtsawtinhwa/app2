@@ -41,17 +41,17 @@ router.get('/:id', async function(req, res, next) {
 router.post('/add', async function(req, res, next) {
 
 	try {
-		var password = undefined;	
+		var password = undefined;
 		var hash = CryptoJS.HmacSHA256(req.body.password, key);
 		password = hash.toString(CryptoJS.enc.Hex);
 		console.log("Password: [" + password + "]");
 
 		var data = await knex('user').insert({
-			first_name: req.body.first_name,	
-			last_name: req.body.last_name,	
-			email: req.body.email,	
-			phone_number: req.body.phone_number,	
-			password: password,	
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			email: req.body.email,
+			phone_number: req.body.phone_number,
+			password: password,
 		}).returning('id');
   		res.json(data);
 
@@ -69,9 +69,9 @@ router.post('/update', async function(req, res, next) {
 		if (req.body.last_name != undefined) data.last_name = req.body.last_name;
 		if (req.body.phone_number != undefined) data.phone_number = req.body.phone_number;
 		if (req.body.email != undefined) data.email = req.body.email;
-		if (req.body.password != undefined) 
+		if (req.body.password != undefined)
 		{
-			var password = undefined;	
+			var password = undefined;
 			var hash = CryptoJS.HmacSHA256(req.body.password, key);
 			password = hash.toString(CryptoJS.enc.Hex);
 			console.log("Password: [" + password + "]");
@@ -120,7 +120,7 @@ router.post('/login', async function(req, res, next) {
 		}
 
 		var record = data[0];
-		var password = undefined;	
+		var password = undefined;
 
 		var hash = CryptoJS.HmacSHA256(req.body.password, key);
 		password = hash.toString(CryptoJS.enc.Hex);
@@ -131,14 +131,14 @@ router.post('/login', async function(req, res, next) {
 		{
 			res.status(200);
   			res.json({message: "Successfully login", code: 0});
-			
+
 		}
 		else
 		{
 			res.status(400);
   			res.json({message: "Invalid password", code: 1001});
 		}
-			
+
 	} catch (err) {
 		console.log("Exception", err);
 		res.status(400);
